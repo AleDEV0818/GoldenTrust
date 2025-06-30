@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+  data-theme="theme-default" data-assets-path="/" data-template="vertical-menu-template">
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Reviews | GTI</title>
+  <meta name="description" content="" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+    rel="stylesheet" />
+  <!-- Icons + CSS -->
+  <link rel="stylesheet" href="/vendor/fonts/fontawesome.css" />
+  <link rel="stylesheet" href="/vendor/fonts/tabler-icons.css" />
+  <link rel="stylesheet" href="/vendor/fonts/flag-icons.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/css/demo.css" />
+  <link rel="stylesheet" href="/vendor/libs/node-waves/node-waves.css" />
+  <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="/vendor/libs/typeahead-js/typahead.css" />
+  <link rel="stylesheet" href="/vendor/libs/apex-charts/apex-charts.css" />
+  <link rel="stylesheet" href="/vendor/libs/swiper/swiper.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-responseive-bs5/responsive.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+  <link rel="stylesheet" href="/vendor/css/pages/cards-advance.css" />
+  <script src="/vendor/js/helpers.js"></script>
+  <script src="/vendor/js/template-customizer.js"></script>
+  <script src="/js/config.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"/>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+
+<div id="customerDetailsModal" tabindex="-1">
+  <div class="modal-content">
+    <div id="customerDetailsBody"></div>
+  </div>
+</div>
+
+</head>
+
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+    <!-- Menu -->
+
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="/users/agencie" class="app-brand-link">
+            <!--<span class="app-brand-logo">
+              <img src="/img/branding/gt.png" alt="">
+            </span>-->
+            <span class="app-brand-text">
+              <img src="/img/branding/gti_logo1.png" alt="" id="menuLogo">
+            </span>
+          </a>
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+          </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+        
+                 <!-- Dashboard -->
+
+          <li class="menu-item">
+            <a href="/users/dashboard" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-smart-home"></i>
+              <div data-i18n="Dashboard">Dashboard</div>
+            </a>
+          </li>
+
+          
+                          <li class="menu-item ">
+                  <a href="/users/agency" class="menu-link">
+                  <i class="menu-icon tf-icons ti ti-home-heart"></i>
+           <div data-i18n="Agencies">Agencies</div>
+           </a>
+                  </li>
+
+
+          <li class="menu-item">
+         <a href="/users/gtidirectory" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-address-book"></i>
+          <div data-i18n="GTI Directory">GTI Directory</div>
+              </a>
+                  </li>
+
+
+<!-- 
+                <li class="menu-item active ">
+            <a href="/users/renewals/agency-upcoming-renewals" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-refresh"></i>
+         <div data-i18n="Reviews">Reviews</div>
+           </a>
+                              </li>
+
+-->
+
+
+ <li class="menu-header small text-uppercase">
+            <span class="menu-header-text" data-i18n="MARKETING">MARKETING</span>
+
+<li class="menu-item">
+  <a href="/users/renewals/message-center" class="menu-link">
+    <i class="menu-icon tf-icons ti ti-speakerphone"></i> 
+    <div data-i18n="Message Center">Message Center</div>
+  </a>
+</li>
+
+
+          <!-- ////////////////ADMIN/////////////////////// -->
+        
+            <li class="menu-header small text-uppercase">
+            <span class="menu-header-text" data-i18n="ADMIN">ADMIN</span>
+          </li>
+
+          <li class="menu-item">
+            <a href="/users/config/headcarriers" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-settings-check"></i>
+              <div data-i18n="Config">Config</div>
+            </a>
+          </li>
+
+    
+
+
+
+
+           
+
+
+        </ul>
+
+      </aside>
+
+      <!-- / Menu -->
+      <div class="layout-page">
+        <!-- Navbar -->
+     
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="ti ti-menu-2 ti-sm"></i>
+            </a>
+          </div>
+
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+
+            <!-- Search -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
+                  <i class="ti ti-search ti-md me-2"></i>
+                  <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
+                </a>
+              </div>
+            </div>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+              <!-- Style Switcher -->
+              <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <i class="ti ti-md"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                      <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                      <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                      <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Notification -->
+              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside" aria-expanded="false">
+                  <i class="ti ti-bell ti-md"></i>
+                  <!--<span class="badge bg-danger rounded-pill badge-notifications">5</span>-->
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end py-0">
+                  <li class="dropdown-menu-header border-bottom">
+                    <div class="dropdown-header d-flex align-items-center py-3">
+                      <h5 class="text-body mb-0 me-auto">Notification</h5>
+                      <a href="javascript:void(0)" class="dropdown-notifications-all text-body" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mark all as read"><i class="ti ti-mail-opened fs-4"></i></a>
+                    </div>
+                  </li>
+              </li>
+              <li class="dropdown-menu-footer border-top">
+                <a href="javascript:void(0);"
+                  class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                  View all notifications
+                </a>
+              </li>
+            </ul>
+            </li>
+            <!--/ Notification -->
+
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+       
+                  <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/users/logout"> <!-- target="_blank" -->
+                    <i class="ti ti-logout me-2 ti-sm"></i>
+                    <span class="align-middle">Log Out</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!--/ User -->
+            </ul>
+          </div>
+
+          <!-- Search Small Screens -->
+          <div class="navbar-search-wrapper search-input-wrapper d-none">
+            <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
+              aria-label="Search..." />
+            <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
+          </div>
+        </nav>
+        <!-- /Navbar -->
+
+
+<div class="my-3"></div>
+
+<!-- NAV PILLS -->
+<ul class="nav nav-pills flex-column flex-md-row mb-4 mx-2 mx-md-4">
+  <li class="nav-item">
+    <a class="nav-link active" href="/users/renewals/agency-upcoming-renewals">
+      <i class="ti ti-repeat ti-xs me-1"></i>
+      Upcoming Renewals
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/users/renewals/agency-expired-not-renewed">
+      <i class="ti ti-repeat-off ti-xs me-1"></i>
+      Expired Not Renewed
+    </a>
+  </li>
+</ul>
+
+
+<!-- /NAV PILLS -->
+<div class="mx-2 mx-md-4 mb-4">
+  <div class="card shadow">
+    <div class="card-body card-widget-separator">
+      <div class="row g-4 mb-4">
+        <!-- Premium / Policies -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-sm-0">
+            <div>
+              <h3 id="premium-policies" class="mb-1">-</h3>
+              <p class="mb-0">Premium / Policies</p>
+            </div>
+            <span class="avatar me-sm-4">
+              <span class="avatar-initial bg-label-secondary rounded">
+                <i class="ti ti-coins ti-md"></i>
+              </span>
+            </span>
+          </div>
+          <hr class="d-none d-sm-block d-lg-none me-4" />
+        </div>
+        <!-- Renewed Premium / Policies -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-sm-0">
+            <div>
+              <h3 id="renewed-premium-policies" class="mb-1">-</h3>
+              <p class="mb-0">Renewed Premium / Policies</p>
+            </div>
+            <span class="avatar me-lg-4">
+              <span class="avatar-initial bg-label-secondary rounded">
+                <i class="ti ti-building ti-md"></i>
+              </span>
+            </span>
+          </div>
+          <hr class="d-none d-sm-block d-lg-none" />
+        </div>
+        <!-- Lost Premium / Policies -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="d-flex justify-content-between align-items-start border-end pb-sm-0 card-widget-3">
+            <div>
+              <h3 id="lost-premium-policies" class="mb-1">-</h3>
+              <p class="mb-0">Lost Premium / Policies</p>
+            </div>
+            <span class="avatar me-sm-4">
+              <span class="avatar-initial bg-label-secondary rounded">
+                <i class="ti ti-users ti-md"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+        <!-- Renewed % / Max % -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h3 id="renewed-max-percent" class="mb-1">-</h3>
+              <p class="mb-0">Renewed % / Max %</p>
+            </div>
+            <span class="avatar">
+              <span class="avatar-initial bg-label-secondary rounded">
+                <i class="ti ti-car-crash ti-md"></i>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Selector de mes y tabla -->
+<div class="mx-2 mx-md-4 my-4">
+  <div class="card shadow">
+    <div class="card-header border-bottom">
+    
+      <div class="d-flex justify-content-end align-items-center gap-2">
+          <i class="ti ti-calendar me-2"></i>
+        <div class="col-md-4 next3months-dropdown">
+          <select id="next3months" class="form-select text-capitalize">
+            <% 
+              const now = new Date();
+              const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                  'July', 'August', 'September', 'October', 'November', 'December'];
+              for(let i = 0; i < 3; i++) {
+                let date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+                let label = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            %>
+              <option value="<%= i %>" <%= i === 0 ? "selected" : "" %>>
+                <%= label %><%= i === 0 ? " " : "" %>
+              </option>
+            <% } %>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="datatables-upcoming-renewals table table-striped table-bordered align-middle mb-0" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Customer Name</th>
+              <th>Policy Number</th>
+              <th>Carrier Name</th>
+              <th>Line of Business</th>
+              <th>Premium</th>
+              <th>Exp Date</th>
+              <th>CSR Name</th>
+              <th>Renewed</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal de detalles de cliente -->
+<div id="customerDetailsModal" class="modal" tabindex="-1" style="display:none; align-items:center; justify-content:center;">
+  <div class="modal-dialog" style="max-width:425px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Customer Details</h6>
+
+      </div>
+      <div class="modal-body" id="customerDetailsBody"></div>
+    </div>
+  </div>
+</div>
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl">
+            <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+              <div>
+              
+                <script>document.write(new Date().getFullYear());</script>
+                , &nbsp;
+                <a href="https://goldentrust.com" target="_blank" class="footer-link text-primary fw-medium">GTI | Marketing & IT Department</a>
+              </div>
+              <div class="d-none d-lg-inline-block">
+                <a href="https://goldentrust.com" class="footer-link me-4" target="_blank">GoldenTrust.com</a>
+                <a href="https://admin.goldensoft.pro" target="_blank" class="footer-link me-4">CRM</a>
+                <a href="https://365.goldentrustinsurance.com" target="_blank" class="footer-link me-4">Email</a>
+                <a href="https://internal.goldentrustinsurance.com" target="_blank" class="footer-link me-4">Intranet</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+  <!-- / Layout wrapper -->
+
+  <!-- Core JS -->
+  <script src="/vendor/libs/jquery/jquery.js"></script>
+  <script src="/vendor/libs/popper/popper.js"></script>
+  <script src="/vendor/js/bootstrap.js"></script>
+  <script src="/vendor/libs/node-waves/node-waves.js"></script>
+  <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="/vendor/libs/hammer/hammer.js"></script>
+  <script src="/vendor/libs/i18n/i18n.js"></script>
+  <script src="/vendor/libs/typeahead-js/typeahead.js"></script>
+  <script src="/vendor/js/menu.js"></script>
+  <script src="/vendor/libs/moment/moment.js"></script>
+  <script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+  <script src="/vendor/libs/select2/select2.js"></script>
+  <script src="/vendor/libs/@form-validation/popular.js"></script>
+  <script src="/vendor/libs/@form-validation/bootstrap5.js"></script>
+  <script src="/vendor/libs/@form-validation/auto-focus.js"></script>
+  <script src="/vendor/libs/cleavejs/cleave.js"></script>
+  <script src="/vendor/libs/cleavejs/cleave-phone.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/assets/js/intranet-agency-upcoming-renewals.js"></script>
+</body>
+</html>

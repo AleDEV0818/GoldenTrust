@@ -1,0 +1,528 @@
+<!doctype html>
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr"
+  data-theme="theme-default" data-assets-path="/" data-template="vertical-menu-template">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>Accounting | Royalty Fees</title>
+
+  <meta name="description" content="" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="/vendor/fonts/fontawesome.css" />
+  <link rel="stylesheet" href="/vendor/fonts/tabler-icons.css" />
+  <link rel="stylesheet" href="/vendor/fonts/flag-icons.css" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/css/demo.css" />
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="/vendor/libs/node-waves/node-waves.css" />
+  <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="/vendor/libs/typeahead-js/typeahead.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-select-bs5/select.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css" />
+  <link rel="stylesheet" href="/vendor/libs/select2/select2.css" />
+  <link rel="stylesheet" href="/vendor/libs/sweetalert2/sweetalert2.css" />
+
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="/vendor/js/helpers.js"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+  <script src="/vendor/js/template-customizer.js"></script>
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="/js/config.js"></script>
+</head>
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="/users/dashboard" class="app-brand-link">
+            <!--<span class="app-brand-logo">
+              <img src="/img/branding/gt.png" alt="">
+            </span>-->
+            <span class="app-brand-text">
+              <img src="/img/branding/gti_logo1.png" alt="" id="menuLogo">
+            </span>
+          </a>
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>
+            <i class="ti ti-x d-block d-xl-none ti-sm align-middle"></i>
+          </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+
+        <ul class="menu-inner py-1">
+
+              <!-- Dashboard -->
+
+          <li class="menu-item">
+            <a href="/users/dashboard" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-smart-home"></i>
+              <div data-i18n="Dashboard">Dashboard</div>
+            </a>
+          </li>
+
+          
+                          <li class="menu-item ">
+                  <a href="/users/agency" class="menu-link">
+                  <i class="menu-icon tf-icons ti ti-home-heart"></i>
+           <div data-i18n="Agencies">Agencies</div>
+           </a>
+                  </li>
+
+<!-- 
+                <li class="menu-item active">
+            <a href="/users/renewals/agency-upcoming-renewals" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-refresh"></i>
+         <div data-i18n="Reviews">Reviews</div>
+           </a>
+                              </li>
+
+-->
+
+
+          <li class="menu-item">
+         <a href="/users/gtidirectory" class="menu-link">
+        <i class="menu-icon tf-icons ti ti-address-book"></i>
+          <div data-i18n="GTI Directory">GTI Directory</div>
+              </a>
+                  </li>
+
+
+ <li class="menu-header small text-uppercase">
+            <span class="menu-header-text" data-i18n="MARKETING">MARKETING</span>
+
+<li class="menu-item">
+  <a href="/users/renewals/message-center" class="menu-link">
+    <i class="menu-icon tf-icons ti ti-speakerphone"></i> 
+    <div data-i18n="Message Center">Message Center</div>
+  </a>
+</li>
+
+
+          <!-- ////////////////ADMIN/////////////////////// -->
+        
+            <li class="menu-header small text-uppercase">
+            <span class="menu-header-text" data-i18n="ADMIN">ADMIN</span>
+          </li>
+
+          <li class="menu-item active">
+            <a href="/users/config/headcarriers" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-settings-check"></i>
+              <div data-i18n="Config">Config</div>
+            </a>
+          </li>
+
+    
+
+
+
+
+           
+
+
+        </ul>
+
+      </aside>
+
+      <!-- / Menu -->
+
+      <!-- Layout page -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="ti ti-menu-2 ti-sm"></i>
+            </a>
+          </div>
+
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+
+            <!-- Search -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
+                  <i class="ti ti-search ti-md me-2"></i>
+                  <span class="d-none d-md-inline-block text-muted">Search (Ctrl+/)</span>
+                </a>
+              </div>
+            </div>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+              <!-- Style Switcher -->
+              <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <i class="ti ti-md"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                      <span class="align-middle"><i class="ti ti-sun me-2"></i>Light</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                      <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                      <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Notification -->
+              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown"
+                  data-bs-auto-close="outside" aria-expanded="false">
+                  <i class="ti ti-bell ti-md"></i>
+                  <!--<span class="badge bg-danger rounded-pill badge-notifications">5</span>-->
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end py-0">
+                  <li class="dropdown-menu-header border-bottom">
+                    <div class="dropdown-header d-flex align-items-center py-3">
+                      <h5 class="text-body mb-0 me-auto">Notification</h5>
+                      <a href="javascript:void(0)" class="dropdown-notifications-all text-body" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mark all as read"><i class="ti ti-mail-opened fs-4"></i></a>
+                    </div>
+                  </li>
+              </li>
+              <li class="dropdown-menu-footer border-top">
+                <a href="javascript:void(0);"
+                  class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                  View all notifications
+                </a>
+              </li>
+            </ul>
+            </li>
+            <!--/ Notification -->
+
+            <!-- User -->
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+              <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <div class="avatar avatar-online">
+                  <img src="/img/avatars/users/<%=user.user_id%>.png" alt class="h-auto rounded-circle" />
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="pages-account-settings-account.html">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar avatar-online">
+                          <img src="/img/avatars/users/<%=user.user_id%>.png" alt class="h-auto rounded-circle" />
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <span class="fw-medium d-block">
+                          <%= user.display_name %>
+                        </span>
+                        <small class="text-muted">
+                          <%=user.job_title%>
+                        </small>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/users/logout"> <!-- target="_blank" -->
+                    <i class="ti ti-logout me-2 ti-sm"></i>
+                    <span class="align-middle">Log Out</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!--/ User -->
+            </ul>
+          </div>
+
+          <!-- Search Small Screens -->
+          <div class="navbar-search-wrapper search-input-wrapper d-none">
+            <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
+              aria-label="Search..." />
+            <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
+          </div>
+        </nav>
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+
+          <div class="container-xxl flex-grow-1 container-p-y">
+
+            <!-- Renewals Pills -->
+            <ul class="nav nav-pills flex-column flex-md-row mb-4">
+              <li class="nav-item">
+                <a class="nav-link active" href="/users/config/headcarriers"><i class="ti ti-repeat ti-xs me-1"></i>Head
+                  Carrier</a>
+              </li>
+            </ul>
+
+            <!--/ Renewals Pills -->
+
+            <!-- Row grouping -->
+            <div class="card">
+              <h5 class="card-header">Add Head Carrier &nbsp;<a href="javascript:;"
+                  class="btn btn-sm btn-icon item-edit" data-bs-target="#addHeadCarrier" data-bs-toggle="modal"
+                  data-bs-dismiss="modal"><i class="text-primary ti ti-plus"></i></a></h5>
+              <div class="card-datatable table-responsive">
+                <table class="dt-row-grouping table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Head Carrier</th>
+                      <th>Type</th>
+                      <th>Created</th>
+                      <th>Last Modified</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th></th>
+                      <th>Name</th>
+                      <th>Head Carrier</th>
+                      <th>Type</th>
+                      <th>Created</th>
+                      <th>Last Modified</th>
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <!--/ Row grouping -->
+
+          </div>
+          <!-- / Content -->
+
+          <!-- Add Head Carrier Modal -->
+          <div class="modal fade" id="addHeadCarrier" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+              <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="text-center mb-4">
+                    <h3 class="mb-2">Add Head Carrier</h3>
+                    <p class="text-muted">The head carriers groups all the programs offered by the companies</p>
+                  </div>
+                  <form id="editRfForm" class="row g-3" onsubmit="return validateForm()" method="post"
+                    action="/users/config/headcarrier/addHeadCarrier">
+                    <div class="col-12 col-md-6">
+                      <label for="name" class="form-label">Head Carrier</label>
+                      <input class="form-control" type="text" id="name" name="name" required />
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="select2Basic" class="form-label">Carrier or MGA</label>
+                      <select id="select2Basic" class="select2 form-select form-select-lg input-group-text"
+                        data-allow-clear="true" name="carrier_id">
+                        <%carriers.forEach(element=> {%>
+                          <option value="<%=element.entity_id%>">
+                            <%=element.display_name%>
+                          </option>
+                          <%})%>
+                      </select>
+                    </div>
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                      <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ Add Head Carrier Modal -->
+
+          <!-- Add Carrier to Head Carrier Modal -->
+          <div class="modal fade" id="addCarrier" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+              <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="text-center mb-4">
+                    <h3 class="mb-2">Add Company to Head Carrier</h3>
+                    <p class="text-muted">The head carriers groups all the programs offered by the companies</p>
+                  </div>
+                  <form id="editRfForm" class="row g-3" onsubmit="return validateForm()" method="post"
+                    action="/users/config/headcarrier/addHeadCarrier">
+                    <div class="col-12 col-md-6">
+                      <label for="name1" class="form-label">Head Carrier</label>
+                      <input class="form-control" type="text" id="name1" name="name" readonly />
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="select2Basic" class="form-label">Carrier or MGA</label>
+                      <select id="select2Basic" class="select2 form-select form-select-lg input-group-text"
+                        data-allow-clear="true" name="carrier_id">
+                        <%carriers.forEach(element=> {%>
+                          <option value="<%=element.entity_id%>">
+                            <%=element.display_name%>
+                          </option>
+                          <%})%>
+                      </select>
+                    </div>
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                      <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/  Add Carrier to Head Carrier Modal -->
+
+          <!-- Delete Carrier from Head Carrier Modal -->
+          <div class="modal fade" id="deleteCarrier" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+              <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="text-center mb-4">
+                    <h3 class="mb-2">Delete Company from Head Carrier</h3>
+                    <p class="text-muted">The head carriers groups all the programs offered by the companies</p>
+                  </div>
+                  <form id="editRfForm" class="row g-3" onsubmit="return validateForm()" method="post"
+                    action="/users/config/headcarrier/deleteCarrier">
+                    <input id="contact_id" name="contact_id" class="d-none" />
+                    <div class="col-12 col-md-6">
+                      <label for="name2" class="form-label">Head Carrier</label>
+                      <input class="form-control" type="text" id="name2" name="name2" readonly />
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="name2" class="form-label">Carrier or MGA</label>
+                      <input class="form-control" type="text" id="carrierMga" name="name" readonly />
+                    </div>
+                    <div class="col-12 text-center">
+                      <button type="submit" class="btn btn-primary me-sm-3 me-1">Delete</button>
+                      <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/  Delete Carrier from Head Carrier Modal -->
+
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl">
+              <div
+                class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+                <div>
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  , &nbsp
+                  <a href="https://goldentrust.com" target="_blank" class="footer-link text-primary fw-medium"> GTI |
+                    Marketing & IT Department</a>
+                </div>
+                <div class="d-none d-lg-inline-block">
+                  <a href="https://goldentrust.com" class="footer-link me-4" target="_blank">GoldenTrust.com</a>
+                  <a href="https://admin.goldensoft.pro" target="_blank" class="footer-link me-4">CRM</a>
+                  <a href="https://365.goldentrustinsurance.com" target="_blank" class="footer-link me-4">Email</a>
+                  <a href="https://internal.goldentrustinsurance.com" target="_blank"
+                    class="footer-link me-4">Intranet</a>
+                </div>
+              </div>
+            </div>
+          </footer>
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+  </div>
+  <!-- / Layout wrapper -->
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+
+  <script src="/vendor/libs/jquery/jquery.js"></script>
+  <script src="/vendor/libs/popper/popper.js"></script>
+  <script src="/vendor/js/bootstrap.js"></script>
+  <script src="/vendor/libs/node-waves/node-waves.js"></script>
+  <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="/vendor/libs/hammer/hammer.js"></script>
+  <script src="/vendor/libs/i18n/i18n.js"></script>
+  <script src="/vendor/libs/typeahead-js/typeahead.js"></script>
+  <script src="/vendor/js/menu.js"></script>
+
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+  <script src="/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+  <script src="/vendor/libs/select2/select2.js"></script>
+  <script src="/vendor/libs/sweetalert2/sweetalert2.js"></script>
+
+
+  <!-- Main JS -->
+  <script src="/js/main.js"></script>
+
+  <!-- Page JS -->
+  <script src="/js/config-headcarrier.js"></script>
+</body>
+
+</html>
