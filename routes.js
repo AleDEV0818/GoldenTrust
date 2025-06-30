@@ -143,6 +143,11 @@ router.post(
 );
 
 
+router.post(
+  '/users/renewals/agency-lost-renewals-by-line-kpis', 
+  renewalsAuth,
+  notRenewalsController.getLostRenewalKPIs  // Así si usas el export default
+);
 
 
 export default router;
