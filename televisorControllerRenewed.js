@@ -6,6 +6,7 @@ const NB_GOALS = {
   "Hialeah": 14000,
   "Bent Tree": 10000,
   "Total": 75000,
+  // Ejemplo franquicia:
   "GTF-110 Homestead": 30000
 };
 
@@ -29,7 +30,7 @@ function getTickerLines(rows, isCorporate, locationAlias = "") {
         k => k.trim().toLowerCase() === alias.trim().toLowerCase()
       );
       const goal = goalKey ? NB_GOALS[goalKey] : 10000;
-      const value = row ? (parseFloat(row.total_premium?.toString().replace(/[^0-9.-]+/g, "")) || 0) : 0;
+      const value = row ? (parseFloat(row.total_premium.toString().replace(/[^0-9.-]+/g, "")) || 0) : 0;
       const percent = (value / goal * 100) || 0;
       return `${alias} NB ${formatShortCurrency(goal)} / ${formatShortCurrency(value)} / ${percent.toFixed(1)}%`;
     });
@@ -50,6 +51,39 @@ function getTickerLines(rows, isCorporate, locationAlias = "") {
   }
 }
 
+// --- API endpoint para la cinta de noticias ---
+export const getNewsTicker = async (req, res) => {
+  try {
+    const locationId = req.query.location_id ? parseInt(req.query.location_id) : null;
+    const inputDate = req.query.date || new Date().toISOString().split('T')[0]; 
+
+    // Averigua tipo de location Y alias
+    let locationType = 1; 
+    let locationAlias = "";
+    if (locationId) {
+      const rows = await safeQuery('SELECT location_type, alias, location_name FROM qq.locations WHERE location_id = $1', [locationId]);
+      if (rows.length) {
+        locationType = rows[0].location_type;
+        locationAlias = rows[0].alias || rows[0].location_name || "";
+      }
+    }
+
+    const params = locationId ? [inputDate, locationId] : [inputDate, null];
+    const tickerRows = await safeQuery('SELECT * FROM intranet.get_corporate_nb_sales_by_date($1, $2)', params);
+
+  
+    const isCorporate = locationType === 1;
+    const tickerLines = getTickerLines(tickerRows, isCorporate, locationAlias);
+
+
+
+    res.json({ tickerLines });
+  } catch (error) {
+    console.error('Ticker API error:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+};
+
 // --- Utilidades ---
 function formatCurrency(amount) {
   if (amount == null) return '$0.00';
@@ -68,10 +102,12 @@ function getTotalRow(rows) {
   if (!Array.isArray(rows) || rows.length === 0) {
     return { premium: 0, policies: 0 };
   }
+  // Busca la fila 'Total', si no existe usa la primera fila
   let row = rows.find(r =>
     (r.business_type || r.businesstype || r.type || r.location_name || '').toString().toLowerCase() === 'total'
   ) || rows[0];
 
+  // premium puede venir como string tipo Postgres MONEY
   let premium = row.premium ?? row.total_premium ?? row.gross_premium ?? row.amount ?? 0;
   if (typeof premium === 'string') {
     premium = parseFloat(premium.replace(/[^0-9.-]+/g, "")) || 0;
@@ -86,7 +122,6 @@ function getTotalRow(rows) {
     policies
   };
 }
-
 // --- Safe Query ---
 async function safeQuery(query, params = []) {
   try {
@@ -98,6 +133,7 @@ async function safeQuery(query, params = []) {
   }
 }
 
+// --- Ubicación ---
 async function getLocationType(locationId) {
   if (!locationId) return 1;
   try {
@@ -111,6 +147,7 @@ async function getLocationType(locationId) {
     return 1;
   }
 }
+
 
 // --- Producción HOY/MES agencia/corporativo ---
 async function getAgencyTodayTotal(locationId, locationType) {
@@ -169,17 +206,17 @@ async function getCompanyMonthTotal() {
   return getTotalRow(rows);
 }
 
-// --- Datos Producer Detallados (por fecha y location) ---
-async function getProducerRows(locationId, startDate, endDate) {
+// --- Datos CSR Detallados (por fecha y location) ---
+async function getCSRRows(locationId, startDate, endDate) {
   if (!locationId) return [];
   return await safeQuery(
-    'SELECT * FROM intranet.dashboard_producer_rw_location($1, $2, $3)',
+    'SELECT * FROM intranet.dashboard_csr_nb_location($1, $2, $3)',
     [startDate, endDate, locationId]
   );
 }
 
-// --- Datos Producer (solo totales) ---
-async function getProducerDataTotals(locationId) {
+// --- Datos CSR (solo totales) ---
+async function getCSRDataTotals(locationId) {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth();
@@ -187,17 +224,18 @@ async function getProducerDataTotals(locationId) {
   const finalDateStr = new Date(year, month + 1, 0).toISOString().split('T')[0];
   const todayDateStr = today.toISOString().split('T')[0];
 
-  // Producer HOY
-  const producerTodayRows = await safeQuery(
-    'SELECT * FROM intranet.dashboard_producer_rw_location($1, $2, $3)', [todayDateStr, todayDateStr, locationId]
+  // CSR HOY
+  const csrTodayRows = await safeQuery(
+    'SELECT * FROM intranet.dashboard_csr_nb_location($1, $2, $3)', [todayDateStr, todayDateStr, locationId]
   );
-  // Producer MES
-  const producerMonthRows = await safeQuery(
-    'SELECT * FROM intranet.dashboard_producer_rw_location($1, $2, $3)', [initialDateStr, finalDateStr, locationId]
+  // CSR MES
+  const csrMonthRows = await safeQuery(
+    'SELECT * FROM intranet.dashboard_csr_nb_location($1, $2, $3)', [initialDateStr, finalDateStr, locationId]
   );
 
-  // Totales Producer Hoy
-  const producerTodayTotals = producerTodayRows.reduce((acc, curr) => {
+  // Totales CSR Hoy
+  const csrTodayTotals = csrTodayRows.reduce((acc, curr) => {
+    // premium puede ser tipo string (Postgres money) o number
     let premium = typeof curr.premium === 'string'
       ? parseFloat(curr.premium.replace(/[^0-9.-]+/g, "")) || 0
       : Number(curr.premium) || 0;
@@ -207,8 +245,8 @@ async function getProducerDataTotals(locationId) {
     return acc;
   }, { premium: 0, policies: 0 });
 
-  // Totales Producer Mes
-  const producerMonthTotals = producerMonthRows.reduce((acc, curr) => {
+  // Totales CSR Mes
+  const csrMonthTotals = csrMonthRows.reduce((acc, curr) => {
     let premium = typeof curr.premium === 'string'
       ? parseFloat(curr.premium.replace(/[^0-9.-]+/g, "")) || 0
       : Number(curr.premium) || 0;
@@ -219,53 +257,24 @@ async function getProducerDataTotals(locationId) {
   }, { premium: 0, policies: 0 });
 
   return {
-    producerToday: {
-      premium: formatCurrency(producerTodayTotals.premium),
-      policies: producerTodayTotals.policies
+    csrToday: {
+      premium: formatCurrency(csrTodayTotals.premium),
+      policies: csrTodayTotals.policies
     },
-    producerMonth: {
-      premium: formatCurrency(producerMonthTotals.premium),
-      policies: producerMonthTotals.policies
+    csrMonth: {
+      premium: formatCurrency(csrMonthTotals.premium),
+      policies: csrMonthTotals.policies
     }
   };
 }
 
-// --- API endpoint para la cinta de noticias ---
-export const getNewsTickerRenewed = async (req, res) => {
-  try {
-    const locationId = req.query.location_id ? parseInt(req.query.location_id) : null;
-    const inputDate = req.query.date || new Date().toISOString().split('T')[0];
-
-    let locationType = 1;
-    let locationAlias = "";
-    if (locationId) {
-      const rows = await safeQuery('SELECT location_type, alias, location_name FROM qq.locations WHERE location_id = $1', [locationId]);
-      if (rows.length) {
-        locationType = rows[0].location_type;
-        locationAlias = rows[0].alias || rows[0].location_name || "";
-      }
-    }
-
-    const params = locationId ? [inputDate, locationId] : [inputDate, null];
-    // Puedes cambiar el SP por uno especial para producers si tienes uno
-    const tickerRows = await safeQuery('SELECT * FROM intranet.get_corporate_nb_sales_by_date($1, $2)', params);
-
-    const isCorporate = locationType === 1;
-    const tickerLines = getTickerLines(tickerRows, isCorporate, locationAlias);
-
-    res.json({ tickerLines });
-  } catch (error) {
-    console.error('Ticker API error:', error);
-    res.status(500).json({ error: 'Internal server error', details: error.message });
-  }
-};
-
 // --- API principal ---
-export const getTelevisorDataRenewed = async (req, res) => {
+export const getTelevisorData = async (req, res) => {
   const locationId = req.query.location_id ? parseInt(req.query.location_id) : null;
   try {
     const locationType = await getLocationType(locationId);
 
+    // Aquí obtenemos el alias
     let locationAlias = "Corporate";
     if (locationId) {
       const rows = await safeQuery('SELECT alias, location_name FROM qq.locations WHERE location_id = $1', [locationId]);
@@ -284,18 +293,20 @@ export const getTelevisorDataRenewed = async (req, res) => {
       agencyMonth,
       companyToday,
       companyMonth,
-      producerTotals,
-      producerTodayRows,
-      producerMonthRows
+      csrTotals,
+      csrTodayRows,
+      csrMonthRows
     ] = await Promise.all([
       getAgencyTodayTotal(locationId, locationType),
       getAgencyMonthTotal(locationId, locationType),
       getCompanyTodayTotal(),
       getCompanyMonthTotal(),
-      getProducerDataTotals(locationId),
-      getProducerRows(locationId, todayDateStr, todayDateStr),
-      getProducerRows(locationId, initialDateStr, finalDateStr)
+      getCSRDataTotals(locationId),
+      getCSRRows(locationId, todayDateStr, todayDateStr),
+      getCSRRows(locationId, initialDateStr, finalDateStr)
     ]);
+
+   
 
     res.json({
       today: {
@@ -307,7 +318,7 @@ export const getTelevisorDataRenewed = async (req, res) => {
           premium: formatCurrency(companyToday.premium),
           policies: Number(companyToday.policies) || 0
         },
-        producer: producerTotals.producerToday
+        csr: csrTotals.csrToday
       },
       month: {
         location: {
@@ -318,11 +329,11 @@ export const getTelevisorDataRenewed = async (req, res) => {
           premium: formatCurrency(companyMonth.premium),
           policies: Number(companyMonth.policies) || 0
         },
-        producer: producerTotals.producerMonth
+        csr: csrTotals.csrMonth
       },
-      csrToday: producerTodayRows,   // Key se mantiene por compatibilidad JS actual, puedes renombrar a producerToday
-      csrMonth: producerMonthRows,
-      locationAlias,
+      csrToday: csrTodayRows,
+      csrMonth: csrMonthRows,
+      locationAlias, // <-- AQUÍ!
       timestamp: new Date().toISOString()
     });
   } catch (error) {
@@ -335,10 +346,10 @@ export const getTelevisorDataRenewed = async (req, res) => {
 };
 
 // --- Render EJS ---
-export const televisorTotalsRenewed = async (req, res) => {
+export const televisorTotals = async (req, res) => {
   const monthlyGoal = 10000000;
   const monthlyGoalFormatted = formatCurrency(monthlyGoal);
-  res.render('televisorTotalsRenewed', {
+  res.render('televisorTotals', {
     locationAlias: "Corporate",
     monthlyGoalFormatted,
     monthlyGoal,
