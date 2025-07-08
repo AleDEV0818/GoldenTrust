@@ -71,13 +71,11 @@ export const getNewsTicker = async (req, res) => {
     const params = locationId ? [inputDate, locationId] : [inputDate, null];
     const tickerRows = await safeQuery('SELECT * FROM intranet.get_corporate_nb_sales_by_date($1, $2)', params);
 
-    console.log("tickerRows:", tickerRows);
-    console.log("locationId:", locationId, "locationType:", locationType, "locationAlias:", locationAlias);
-
+  
     const isCorporate = locationType === 1;
     const tickerLines = getTickerLines(tickerRows, isCorporate, locationAlias);
 
-    console.log("tickerLines:", tickerLines);
+
 
     res.json({ tickerLines });
   } catch (error) {
@@ -308,14 +306,7 @@ export const getTelevisorData = async (req, res) => {
       getCSRRows(locationId, initialDateStr, finalDateStr)
     ]);
 
-    // Logs para depuración
-    console.log("locationId:", locationId, "locationAlias:", locationAlias);
-    console.log("agencyToday:", agencyToday);
-    console.log("agencyMonth:", agencyMonth);
-    console.log("companyToday:", companyToday);
-    console.log("companyMonth:", companyMonth);
-    console.log("csrTodayRows:", csrTodayRows);
-    console.log("csrMonthRows:", csrMonthRows);
+   
 
     res.json({
       today: {
