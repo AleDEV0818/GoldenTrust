@@ -35,12 +35,15 @@ import { authenticate } from "./config/passportConfig.js";
 import gtiDirectoryRouter from "./controllers/gtusers.js";
 import notRenewalsController from "./controllers/NotRenewalsController.js";
 import renewalsController from "./controllers/renewalsController.js";
- import { 
+import { 
   renderMessageCenter,
   streamVideo,
   downloadVideo 
 } from "./controllers/messageController.js";
 
+import { televisorTotals, getTelevisorData, getNewsTicker  } from './controllers/televisorController.js';
+
+import { televisorTotalsRenewed, getTelevisorDataRenewed, getNewsTickerRenewed } from './controllers/televisorControllerRenewed.js';
 
 const router = express.Router();
 
@@ -49,11 +52,9 @@ const renewalsAuth = (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.redirect('/login');
   }
-  
   if (!req.user?.location_id) {
     return res.status(403).send("Usuario sin ubicación asignada");
   }
-  
   next();
 };
 
@@ -79,7 +80,6 @@ router.post('/users/dashboard/rwSalesStatistics', checkNotAuthenticated, rwSales
 router.post('/users/dashboard/cnSalesStatistics', checkNotAuthenticated, cnSalesStatistics);
 router.get('/users/dashboard/metrics', checkNotAuthenticated, dashboardMetrics);
 
-
 // Config
 router.get('/users/config/headcarriers', checkNotAuthenticated, headcarrier);
 router.post('/users/config/headcarrier/addHeadCarrier', checkNotAuthenticated, addHeadCarrier);
@@ -98,9 +98,7 @@ router.use('/users', gtiDirectoryRouter);
 router.get('/users/agency', agency);
 router.get('/api/agency-dashboard-metrics', agencyDashboardMetrics); 
 
-
-
-
+// Video and Message Center
 router.get(
   '/users/message-center/upholding-gti-standards',
   renewalsAuth,
@@ -135,19 +133,51 @@ router.get(
   notRenewalsController.expiredNotRenewedView
 );
 
-
 router.post(
   '/users/renewals/agency-expired-not-renewed/data-month', 
   renewalsAuth,
   notRenewalsController.getExpiredPolicies
 );
 
-
 router.post(
   '/users/renewals/agency-lost-renewals-by-line-kpis', 
   renewalsAuth,
-  notRenewalsController.getLostRenewalKPIs  // Así si usas el export default
+  notRenewalsController.getLostRenewalKPIs  
 );
+
+// === TELEVISOR ROUTES ===
+
+router.get('/televisor/totals', renewalsAuth, (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  televisorTotals(req, res);
+});
+
+router.get('/televisor/data', renewalsAuth, async (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  await getTelevisorData(req, res);
+});
+
+router.get('/ticker/data', renewalsAuth, async (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  await getNewsTicker(req, res);
+});
+
+
+// === TELEVISOR RENEWED ROUTES ===
+router.get('/televisor-renewed/totals', renewalsAuth, (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  televisorTotalsRenewed(req, res);
+});
+
+router.get('/televisor-renewed/data', renewalsAuth, async (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  await getTelevisorDataRenewed(req, res);
+});
+
+router.get('/televisor-renewed/ticker', renewalsAuth, async (req, res) => {
+  req.query.location_id = req.user?.location_id || null;
+  await getNewsTickerRenewed(req, res);
+});
 
 
 export default router;
