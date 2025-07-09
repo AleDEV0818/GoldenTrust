@@ -1,34 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos DOM
-    const elements = {
-        todayLocationPremium: document.getElementById('today-location-premium'),
-        todayLocationPolicies: document.getElementById('today-location-policies'),
-        todayCompanyPremium: document.getElementById('today-company-premium'),
-        todayCompanyPolicies: document.getElementById('today-company-policies'),
-        monthLocationPremium: document.getElementById('month-location-premium'),
-        monthLocationPolicies: document.getElementById('month-location-policies'),
-        monthCompanyPremium: document.getElementById('month-company-premium'),
-        monthCompanyPolicies: document.getElementById('month-company-policies'),
-        csrTodayTable: document.getElementById('csr-today-table'),
-        csrTodayTotals: document.getElementById('csr-today-totals'),
-        csrMonthTable: document.getElementById('csr-month-table'),
-        csrMonthTotals: document.getElementById('csr-month-totals'),
-        currentTime: document.getElementById('current-time'),
-        nextUpdate: document.getElementById('next-update'),
-        currentDate: document.getElementById('current-date'),
-        updateTime: document.getElementById('update-time'),
-        errorContainer: document.getElementById('error-container'),
-        locationAlias: document.getElementById('location-alias'),
-        remainingGoal: document.getElementById('remaining-goal'),
-        monthlyGoalAmount: document.getElementById('monthly-goal-amount'),
-        monthlyGoalRaw: document.getElementById('monthly-goal-raw'),
-        companyLogo: document.getElementById('company-logo')
-    };
-    const refreshInterval = 600000; // 10 min
-    let monthlyGoal;
-    let updateTimer;
-    let retryCount = 0;
+  const elements = {
+    todayLocationPremium: document.getElementById('today-location-premium'),
+    todayLocationPolicies: document.getElementById('today-location-policies'),
+    todayCompanyPremium: document.getElementById('today-company-premium'),
+    todayCompanyPolicies: document.getElementById('today-company-policies'),
+    monthLocationPremium: document.getElementById('month-location-premium'),
+    monthLocationPolicies: document.getElementById('month-location-policies'),
+    monthCompanyPremium: document.getElementById('month-company-premium'),
+    monthCompanyPolicies: document.getElementById('month-company-policies'),
+    csrTodayTable: document.getElementById('csr-today-table'),
+    csrTodayTotals: document.getElementById('csr-today-totals'),
+    csrMonthTable: document.getElementById('csr-month-table'),
+    csrMonthTotals: document.getElementById('csr-month-totals'),
+    currentTime: document.getElementById('current-time'),
+    nextUpdate: document.getElementById('next-update'),
+    currentDate: document.getElementById('current-date'),
+    updateTime: document.getElementById('update-time'),
+    errorContainer: document.getElementById('error-container'),
+    locationAlias: document.getElementById('location-alias'),
+    footerLocationAlias: document.getElementById('footer-location-alias'),
+    remainingGoal: document.getElementById('remaining-goal'),
+    monthlyGoalAmount: document.getElementById('monthly-goal-amount'),
+    monthlyGoalRaw: document.getElementById('monthly-goal-raw'),
+    companyLogo: document.getElementById('company-logo')
+};
 
+const refreshInterval = 600000; // 10 min
+let monthlyGoal;
+let updateTimer;
+let retryCount = 0;
+
+    // --- UTILITIES ---
     function parseCurrencyToNumber(currencyString) {
         if (typeof currencyString === 'number') return currencyString;
         if (typeof currencyString !== 'string') return 0;
@@ -58,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return isNegative ? `-${formatted}` : formatted;
     }
 
-    // Formatear SIEMPRE con separador de miles y dos decimales
     function formatTableCurrency(amount) {
         const numericAmount = typeof amount === 'number' ? amount : parseCurrencyToNumber(amount);
         if (isNaN(numericAmount)) return '$0.00';
@@ -71,7 +73,48 @@ document.addEventListener('DOMContentLoaded', () => {
         if (element) element.textContent = value !== undefined && value !== null ? value : fallback;
     }
 
-    // Muestra tabla de Producers (antes CSR)
+function updateClockAndDate() {
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    const formattedDate = now.toLocaleDateString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+    document.getElementById('current-time').textContent = formattedTime;
+    document.getElementById('current-date').textContent = formattedDate;
+}
+// Esta función asegura que el reloj siempre actualice justo al inicio de cada minuto:
+function startClockMinuteSync() {
+    updateClockAndDate();
+    const now = new Date();
+    const msToNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+    setTimeout(function() {
+        updateClockAndDate();
+        setInterval(updateClockAndDate, 60000);
+    }, msToNextMinute);
+}
+
+
+function updateGoalProgress(current, goal) {
+    const circle = document.querySelector('.progress-bar');
+    const text = document.getElementById('goal-progress-text');
+    let percent = 0;
+
+    if (typeof current === "string") current = Number(current.replace(/[^\d.-]/g, ""));
+    if (typeof goal === "string") goal = Number(goal.replace(/[^\d.-]/g, ""));
+    if (goal > 0 && !isNaN(current) && !isNaN(goal)) {
+        percent = Math.round(Math.min(100, Math.max(0, (current / goal) * 100)));
+    }
+    const radius = 42;
+    const circumference = 2 * Math.PI * radius; // 263.89
+    const offset = circumference - percent / 100 * circumference;
+
+    if (circle) {
+        circle.style.strokeDasharray = `${circumference}`;
+        circle.style.strokeDashoffset = offset;
+    }
+    if (text) text.textContent = percent + "%";
+}
+    // --- TABLES ---
     function safeUpdateProducerTable(tableElement, producerData) {
         if (!tableElement) return;
         while (tableElement.rows.length > 1) { tableElement.deleteRow(1); }
@@ -118,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- UI ANIMATION ---
     function safeApplyChangeAnimation() {
         try {
             const metricValues = document.querySelectorAll('.metric-value, .csr-premium, .csr-policies, .remaining-amount');
@@ -149,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { }
     }
 
+    // --- GOAL INIT ---
     function initMonthlyGoal() {
         try {
             let goalValue = elements.monthlyGoalRaw ? elements.monthlyGoalRaw.textContent : null;
@@ -166,13 +211,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- LOCATION ALIAS ---
     function updateLocationAliasInDOM(alias) {
         document.querySelectorAll('.js-location-alias').forEach(el => {
             el.textContent = alias;
         });
         safeUpdate(elements.locationAlias, alias, 'Location');
+        safeUpdate(elements.footerLocationAlias, alias, 'Location'); // ESTO ACTUALIZA EL FOOTER
     }
 
+    // --- MAIN UI UPDATE ---
     function updateUI(data) {
         safeUpdate(elements.todayLocationPremium, formatTVCurrency(data.today.location.premium), '$0');
         safeUpdate(elements.todayLocationPolicies, data.today.location.policies, '0');
@@ -186,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const companyMonthPremium = parseCurrencyToNumber(data.month.company.premium);
             const remaining = monthlyGoal - companyMonthPremium;
             safeUpdate(elements.remainingGoal, formatTableCurrency(remaining), '$0');
+            updateGoalProgress(companyMonthPremium, monthlyGoal); // <-- BARRA
             if (remaining <= 0) {
                 elements.remainingGoal.classList.add('goal-reached');
                 elements.remainingGoal.classList.remove('goal-not-reached');
@@ -193,7 +242,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.remainingGoal.classList.add('goal-not-reached');
                 elements.remainingGoal.classList.remove('goal-reached');
             }
-        } catch (e) { safeUpdate(elements.remainingGoal, '$0'); }
+        } catch (e) {
+            safeUpdate(elements.remainingGoal, '$0');
+            updateGoalProgress(0, monthlyGoal);
+        }
         safeUpdateProducerTable(elements.csrTodayTable, data.csrToday);
         safeUpdateProducerTable(elements.csrMonthTable, data.csrMonth);
         safeUpdateProducerTotals(data);
@@ -216,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
         safeApplyChangeAnimation();
     }
 
+    // --- ERROR ---
     function showError(message) {
         if (!elements.errorContainer) {
             const errorContainer = document.createElement('div');
@@ -246,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.errorContainer.style.display = 'block';
     }
 
+    // --- BACKGROUND ---
     function createBackgroundElements() {
         const bgContainer = document.getElementById('background-elements');
         if (!bgContainer) return;
@@ -263,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- URL PARAMS ---
     function getUrlParams() {
         const urlParams = new URLSearchParams(window.location.search);
         let locationType = urlParams.get('location_type') || 1;
@@ -274,6 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // --- FETCH DATA ---
     async function fetchData() {
         try {
             const { locationType, locationId } = getUrlParams();
@@ -311,6 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- CRITICAL ELEMENTS ---
     function checkCriticalElements() {
         const criticalElements = [
             'today-location-premium', 'today-company-premium',
@@ -329,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEWS TICKER ---
     async function fetchAndRenderTicker() {
         try {
-            const { locationId } = getUrlParams(); 
+            const { locationId } = getUrlParams();
             console.log("Enviando solicitud al ticker con locationId:", locationId);
             const res = await fetch(`/televisor-renewed/ticker?location_id=${locationId || ''}`);
             if (!res.ok) throw new Error('Ticker fetch failed');
@@ -353,11 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ticker.style.animation = '';
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchAndRenderTicker();
-        setInterval(fetchAndRenderTicker, 5 * 60 * 1000); // Refresca cada 5 min
-    });
-
     // --- INIT ---
     function init() {
         checkCriticalElements();
@@ -368,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(fetchData, refreshInterval);
         setInterval(fetchAndRenderTicker, refreshInterval);
         safeResetNextUpdateCounter();
+        startClockMinuteSync(); // <-- ¡AQUÍ!
         if (elements.companyLogo) {
             elements.companyLogo.innerHTML = `
                  <img src="/img/branding/gti_logo1.png" alt="Company Logo" 
