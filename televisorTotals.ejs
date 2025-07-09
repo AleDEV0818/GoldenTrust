@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nbtv</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard_style.css">
-    <style>
+<style>
+
 :root {
     --corporate-blue: #092d74;
     --corporate-blue-light: #2b4d94;
@@ -55,6 +56,7 @@ body {
 }
 
 /* ------------------------------ HEADER ----------------------------- */
+
 header {
     flex: 0 0 auto;
     background-color: var(--corporate-blue);
@@ -107,7 +109,6 @@ header {
     font-size: 1.1vw;
     opacity: 0.9;
 }
-
 /* ------------------------ DASHBOARD BODY ------------------------ */
 .dashboard-body {
     flex: 1 1 0;
@@ -121,10 +122,21 @@ header {
 }
 
 /* ------------------------ METRICS PANEL ------------------------ */
+
+
 .metrics-panel {
     display: flex;
     gap: 20px;
     height: 120px;
+    align-items: stretch;
+}
+.metric-animate {
+  animation: metricFlash 0.7s cubic-bezier(.4,0,.2,1);
+}
+@keyframes metricFlash {
+  0%   { background: #fff6d0; }
+  60%  { background: #ffe; }
+  100% { background: transparent; }
 }
 
 .metric-box {
@@ -140,14 +152,14 @@ header {
 
 .metric-header {
     background-color: var(--corporate-blue);
-    padding: 3px 10px;             /* Menos espacio arriba/abajo */
+    padding: 3px 10px;
     border-bottom: 2px solid var(--highlight-yellow);
-    min-height: 20px;              /* Opcional: fuerza altura mínima más baja */
+    min-height: 20px;
 }
 
 .metric-header h2 {
     color: var(--text-light);
-    font-size: 12px;               /* Más pequeño */
+    font-size: 12px;
     font-weight: 600;
     text-align: center;
     letter-spacing: 0.5px;
@@ -156,12 +168,12 @@ header {
 
 .metric-content {
     display: flex;
-    height: calc(100% - 20px);     /* Ajusta según header más pequeño */
+    height: calc(100% - 20px);
 }
 
 .metric-item {
     flex: 1;
-    padding: 6px 10px;             /* Menos padding para más espacio útil */
+    padding: 6px 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -181,88 +193,120 @@ header {
 }
 
 .amount-display {
-    font-size: 20px;               /* Un poco más pequeño si necesitas más espacio */
+    font-size: 20px;
     font-weight: 700;
     color: var(--corporate-blue-dark);
     margin-bottom: 2px;
 }
 
 .policy-count {
-    font-size: 15px;               /* Más grande y visible */
-    color: var(--corporate-blue);  /* Contraste fuerte */
+    font-size: 15px;
+    color: var(--corporate-blue);
     opacity: 1;
     font-weight: 500;
     margin-bottom: 0;
 }
-
-.goal-box {
-    width: 300px;
-    background: linear-gradient(135deg, var(--corporate-blue) 0%, var(--corporate-blue-dark) 100%);
+.metric-box,
+.goal-box-vertical {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0; /* uniforme */
+}
+
+/* Solo el goal-box tiene fondo azul, los metric-box siguen blancos */
+.metric-box {
+    background: var(--background);
+    border: 1px solid var(--border-light);
+}
+.goal-box-vertical {
+    background: linear-gradient(135deg, var(--corporate-blue) 0%, var(--corporate-blue-dark) 100%);
+    border: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 0 8px;
+}
+
+.goal-info {
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: var(--text-light);
+    text-align: center;
+    gap: 1px;
+    min-width: 0;
 }
 
-.goal-header {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin-bottom: 5px;
-}
-
-.goal-amount {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--highlight-yellow);
-    margin-bottom: 5px;
-}
-
+.goal-header,
 .goal-label {
-    font-size: 12px;
-    opacity: 0.9;
-    margin-bottom: 2px;
+    color: var(--highlight-yellow);
+    font-weight: 600;
+    font-size: 15px;
 }
 
+.goal-amount,
 .remaining-amount {
-    font-size: 18px;
+    color: var(--highlight-yellow);
     font-weight: 700;
-    color: var(--highlight-yellow-light);
-    margin-bottom: 8px;
+    font-size: 20px; /* igual que .amount-display */
+    margin-bottom: 1px;   
 }
 
-.progress-container {
-    width: 100%;
-    height: 14px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 7px;
-    position: relative;
-    overflow: hidden;
+
+/* Círculo de progreso  */
+.progress-container-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-circle {
+  width: 100px;
+  height: 100px;
+  transform: rotate(-90deg);
+}
+
+.progress-bg {
+  fill: none;
+  stroke: rgba(255,255,255,0.15);
+  stroke-width: 10;
 }
 
 .progress-bar {
-    height: 100%;
-    background-color: var(--highlight-yellow);
-    border-radius: 7px;
-    transition: width 1s ease;
+  fill: none;
+  stroke: var(--highlight-yellow, #f5a706); /* Amarillo de tu variable */
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 263.89; /* 2*PI*42 */
+  stroke-dashoffset: 263.89;
+  transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1);
 }
 
-.progress-text {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--corporate-blue-dark);
+.progress-text-circle {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100px; height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--highlight-yellow, #f5a706); /* Amarillo de tu variable */
+  text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  pointer-events: none;
+  user-select: none;
 }
 /* ------------------------ TABLES PANEL ------------------------ */
 .tables-panel {
@@ -285,10 +329,11 @@ header {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 100%; /* <--- NUEVO: Llenar el alto total */
 }
 .table-header {
     background-color: var(--corporate-blue);
-    padding: 1vw 1.3vw;
+    padding: 0.7vw 1vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -297,18 +342,19 @@ header {
 }
 .table-header h2 {
     color: var(--text-light);
-    font-size: 1.3vw;
+    font-size: clamp(14px, 1.3vw, 22px);
     font-weight: 600;
     margin: 0;
 }
 .total-badge {
     background-color: rgba(255,255,255,0.1);
     color: var(--highlight-yellow);
-    padding: 0.5vw 1vw;
+    padding: 0.3vw 0.7vw;
     border-radius: 4px;
-    font-size: 1vw;
+    font-size: clamp(12px, 1vw, 16px);
     font-weight: 600;
 }
+
 /* ------------ TABLA ADAPTABLE -------------- */
 .data-table {
     width: 100%;
@@ -317,8 +363,7 @@ header {
     background-color: #f5f5f5;
     flex: 1 1 0;
     min-height: 0;
-    height: 100%;
-    font-size: 1.5vw;
+    height: 100%;  /* <--- NUEVO: Llenar el alto total */
     font-family: inherit;
     display: flex;
     flex-direction: column;
@@ -333,11 +378,26 @@ header {
     display: table;
     width: 100%;
     table-layout: fixed;
-    font-size: 1.2vw;
+    font-size: clamp(12px, 1.1vw, 18px);
+}
+.data-table tbody {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    height: 100%;  /* <--- NUEVO: Llenar el alto total */
+}
+.data-table tr, .data-table tr.filler-row {
+    flex: 1 1 0;
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    align-items: stretch;
 }
 .data-table th, .data-table td {
-    padding: 0.7vw 1vw;
-    font-size: 1.5vw;
+    padding: 0.5vw 0.6vw;
+    font-size: clamp(11px, 1.3vw, 17px);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -345,26 +405,13 @@ header {
     background-color: #f5f5f5;
     display: flex;
     align-items: center;
+    min-height: 0;
 }
 .data-table th { font-weight: 700; letter-spacing: 0.5px; background-color: #e0e0e0;}
 .data-table td { font-weight: 500;}
 .data-table th:first-child, .data-table td:first-child { width: 50%; flex-basis: 50%; color: var(--corporate-blue); font-weight: 700;}
 .data-table th:nth-child(2), .data-table td:nth-child(2) { width: 15%; flex-basis: 15%; text-align: center; justify-content: center;}
 .data-table th:last-child, .data-table td:last-child { width: 25%; flex-basis: 25%; text-align: right; justify-content: flex-end; color: var(--success-green);}
-.data-table tbody {
-    flex: 1 1 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 0;
-}
-.data-table tr {
-    flex: 1 1 0;
-    display: flex;
-    width: 100%;
-    min-height: 0;
-    align-items: stretch;
-}
 .data-table td, .data-table th {
     display: flex;
     align-items: center;
@@ -384,6 +431,33 @@ header {
 .data-table tbody tr:first-child { background-color: rgba(245, 167, 6, 0.1);}
 .data-table tbody tr:first-child td { font-weight: 600;}
 .data-table tbody tr:hover { background-color: rgba(9, 45, 116, 0.05);}
+
+/* Scroll horizontal para tablas en pantallas reducidas */
+@media (max-width: 900px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    .data-table {
+        min-width: 430px;
+    }
+    .data-table th, .data-table td {
+        font-size: clamp(10px, 2.6vw, 15px);
+        padding: 0.3vw 0.4vw;
+    }
+    .table-header h2, .total-badge {
+        font-size: clamp(12px, 2vw, 18px);
+    }
+}
+@media (max-width: 600px) {
+    .data-table th, .data-table td {
+        font-size: clamp(9px, 3vw, 13px);
+        padding: 0.2vw 0.3vw;
+    }
+    .table-header h2, .total-badge {
+        font-size: clamp(10px, 2.5vw, 15px);
+    }
+}
+
 
 /* ------------------------ TICKER (CINTA) ------------------------ */
 .ticker-container {
@@ -422,29 +496,35 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1vw 2vw;
+    padding: 0.3vw 1vw;         /* Menos espacio arriba/abajo y a los lados */
     background-color: #f8f8f8;
     border-top: 1px solid var(--border-light);
-    min-height: 40px;
-    height: 3vw;
-    font-size: 1vw;
+    min-height: 24px;           /* Más bajo */
+    height: 2vw;                /* Más compacto aún */
+    font-size: 0.85vw;          /* Más pequeño */
 }
 .footer-location {
     font-weight: 600;
     color: var(--highlight-yellow);
-    font-size: 1.2vw;
+    font-size: 0.9vw;
     text-align: right;
+    background: var(--corporate-blue);  /* Fondo azul */
+    padding: 0.1vw 0.7vw;               /* Igual que .update-time */
+    border-radius: 5px;
+    margin-left: 1vw;
+    box-shadow: 0 1px 2px rgba(9,45,116,0.07);
+    border: none;
+    display: inline-block;
 }
 .update-time {
-    font-size: 1.2vw;
+    font-size: 0.9vw;           /* Más pequeño */
     color: var(--highlight-yellow);
     font-weight: 600;
     background: var(--corporate-blue);
-    padding: 0.3vw 1vw;
-    border-radius: 7px;
-    box-shadow: 0 1px 3px rgba(9,45,116,0.07);
+    padding: 0.1vw 0.7vw;       /* Más compacto */
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(9,45,116,0.07);
 }
-
 /* ------------------------ RESPONSIVE ------------------------ */
 @media (max-width: 1200px) {
     .dashboard { max-width: 99vw; }
@@ -454,9 +534,16 @@ footer {
     .goal-box { width: 100%; min-width: 0; }
     .table-header h2, .amount-display, .goal-amount, .footer-location, .update-time { font-size: 2.5vw;}
     .ticker-item { font-size: 2vw;}
-    .data-table, .data-table th, .data-table td { font-size: 2vw;}
+    .data-table, .data-table th, .data-table td { font-size: clamp(10px, 2vw, 16px);}
 }
-    </style>
+@media (max-width: 700px) {
+    .table-header h2, .amount-display, .goal-amount, .footer-location, .update-time { font-size: 3.2vw;}
+    .ticker-item { font-size: 2.5vw;}
+    .data-table, .data-table th, .data-table td { font-size: clamp(8px, 3vw, 14px);}
+    .dashboard-body { padding: 4vw 2vw 0 2vw; }
+}
+
+</style>
 </head>
 <body>
     <div class="dashboard">
@@ -515,13 +602,25 @@ footer {
                     </div>
                 </div>
 
-                <div class="goal-box">
-                    <div class="goal-header">To Reach</div>
-                    <div class="goal-amount" id="monthly-goal-amount"><%= monthlyGoalFormatted %></div>
-                    <div id="monthly-goal-raw" style="display:none;"><%= monthlyGoal %></div>
-                    <div class="goal-label">Remaining Goal</div>
-                    <div class="remaining-amount" id="remaining-goal"></div>
-                </div>
+                 
+<div class="goal-box-vertical">
+  <div class="goal-info">
+    <div class="goal-header">To Reach</div>
+    <div class="goal-amount" id="monthly-goal-amount"><%= monthlyGoalFormatted %></div>
+    <div class="goal-label">Remaining Goal</div>
+    <div class="remaining-amount" id="remaining-goal"></div>
+  </div>
+<div class="progress-container-circle">
+  <svg class="progress-circle" width="100" height="100">
+    <circle class="progress-bg" cx="50" cy="50" r="42"/>
+    <circle class="progress-bar" cx="50" cy="50" r="42"/>
+  </svg>
+  <div class="progress-text-circle" id="goal-progress-text"></div>
+</div>
+</div>
+
+
+
             </div>
 
             <!-- CSR Tables -->
@@ -530,7 +629,7 @@ footer {
                 <div class="table-container">
                     <div class="table-header">
                         <h2>
-                            <span class="js-location-alias"><%= locationAlias %></span> - NEW BUSINESS TODAY
+                            <span class="js-location-alias" id="js-location-alias-today"></span> - NEW BUSINESS TODAY
                         </h2>
                         <div class="total-badge" id="csr-today-totals"></div>
                     </div>
@@ -548,7 +647,7 @@ footer {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Las filas se llenarán dinámicamente con JavaScript y se completarán a 10 -->
+                            <!-- JS llenará aquí 10 filas -->
                         </tbody>
                     </table>
                 </div>
@@ -556,7 +655,7 @@ footer {
                 <div class="table-container">
                     <div class="table-header">
                         <h2>
-                            <span class="js-location-alias"><%= locationAlias %></span> - NEW BUSINESS THIS MONTH
+                            <span class="js-location-alias" id="js-location-alias-month"></span> - NEW BUSINESS THIS MONTH
                         </h2>
                         <div class="total-badge" id="csr-month-totals"></div>
                     </div>
@@ -574,7 +673,7 @@ footer {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Las filas se llenarán dinámicamente con JavaScript y se completarán a 10 -->
+                            <!-- JS llenará aquí 10 filas -->
                         </tbody>
                     </table>
                 </div>
@@ -591,7 +690,7 @@ footer {
         <!-- Footer -->
         <footer>
             <div class="update-time">Last update: <span id="update-time"></span></div>
-            <div class="footer-location" id="location-alias"></div>
+            <div class="footer-location" id="footer-location-alias"></div>
         </footer>
     </div>
     <script src="/js/televisorFront.js"></script>
